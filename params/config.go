@@ -248,6 +248,9 @@ var (
 		TerminalTotalDifficultyPassed: false,
 		Ethash:                        new(EthashConfig),
 		Clique:                        nil,
+		CommonsBudget:                 common.Address{},
+		CommonsBudgetReward:           *common.Big0,
+		LastCommonsBudgetRewardBlock:  *common.Big0,
 	}
 
 	// AllCliqueProtocolChanges contains every protocol change (EIPs) introduced
@@ -277,6 +280,9 @@ var (
 		TerminalTotalDifficultyPassed: false,
 		Ethash:                        nil,
 		Clique:                        &CliqueConfig{Period: 0, Epoch: 30000},
+		CommonsBudget:                 common.Address{},
+		CommonsBudgetReward:           *common.Big0,
+		LastCommonsBudgetRewardBlock:  *common.Big0,
 	}
 
 	// TestChainConfig contains every protocol change (EIPs) introduced
@@ -306,6 +312,9 @@ var (
 		TerminalTotalDifficultyPassed: false,
 		Ethash:                        new(EthashConfig),
 		Clique:                        nil,
+		CommonsBudget:                 common.Address{},
+		CommonsBudgetReward:           *common.Big0,
+		LastCommonsBudgetRewardBlock:  *common.Big0,
 	}
 
 	// NonActivatedConfig defines the chain configuration without activating
@@ -335,6 +344,9 @@ var (
 		TerminalTotalDifficultyPassed: false,
 		Ethash:                        new(EthashConfig),
 		Clique:                        nil,
+		CommonsBudget:                 common.Address{},
+		CommonsBudgetReward:           *common.Big0,
+		LastCommonsBudgetRewardBlock:  *common.Big0,
 	}
 	TestRules = TestChainConfig.Rules(new(big.Int), false, 0)
 )
@@ -442,6 +454,11 @@ type ChainConfig struct {
 	// Various consensus engines
 	Ethash *EthashConfig `json:"ethash,omitempty"`
 	Clique *CliqueConfig `json:"clique,omitempty"`
+
+	// Commons budget
+	CommonsBudget                common.Address `json:"commonsBudget"`                // commons budget address (This will most likely be the Address of a Smart Contract)
+	CommonsBudgetReward          big.Int        `json:"commonsBudgetReward"`          // amount of coins rewarded to the commons budget per block
+	LastCommonsBudgetRewardBlock big.Int        `json:"lastCommonsBudgetRewardBlock"` // last block to reward the commons budget
 }
 
 // EthashConfig is the consensus engine configs for proof-of-work based sealing.
