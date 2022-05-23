@@ -89,8 +89,9 @@ func (p *StateProcessor) Process(block *types.Block, statedb *state.StateDB, cfg
 	}
 	// Finalize the block, applying any consensus engine specific extras (e.g. block rewards)
 	p.engine.Finalize(p.bc, header, statedb, block.Transactions(), block.Uncles())
-	bosagora.RewardCommonsBudget(blockNumber, p.config.CommonsBudget, p.config.LastCommonsBudgetRewardBlock, p.config.CommonsBudgetReward, statedb)
-
+	if p.config.IsCommonsBudgetActivated(blockNumber) {
+		bosagora.RewardCommonsBudget(blockNumber, p.config.CommonsBudget, p.config.LastCommonsBudgetRewardBlock, p.config.CommonsBudgetReward, statedb)
+	}
 	return receipts, allLogs, *usedGas, nil
 }
 
