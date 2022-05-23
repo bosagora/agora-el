@@ -565,9 +565,10 @@ func (c *Clique) Prepare(chain consensus.ChainHeaderReader, header *types.Header
 // Finalize implements consensus.Engine, ensuring no uncles are set, nor block
 // rewards given.
 func (c *Clique) Finalize(chain consensus.ChainHeaderReader, header *types.Header, state *state.StateDB, txs []*types.Transaction, uncles []*types.Header) {
-	// No block rewards in PoA, so the state remains as is and uncles are dropped
-	if header.Number.Cmp(&chain.Config().LastCommonsBudgetRewardBlock) < 0 {
-		state.AddBalance(chain.Config().CommonsBudget, &chain.Config().CommonsBudgetReward)
+	if chain.Config().IsCommonsBudgetActivated(header.Number) {
+		if header.Number.Cmp(&chain.Config().LastCommonsBudgetRewardBlock) < 0 {
+			state.AddBalance(chain.Config().CommonsBudget, &chain.Config().CommonsBudgetReward)
+		}
 	}
 
 	header.Root = state.IntermediateRoot(chain.Config().IsEIP158(header.Number))
