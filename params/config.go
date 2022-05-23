@@ -371,6 +371,7 @@ type ChainConfig struct {
 	MergeNetsplitBlock  *big.Int `json:"mergeNetsplitBlock,omitempty"`  // Virtual fork after The Merge to use as a network splitter
 	ShanghaiBlock       *big.Int `json:"shanghaiBlock,omitempty"`       // Shanghai switch block (nil = no fork, 0 = already on shanghai)
 	CancunBlock         *big.Int `json:"cancunBlock,omitempty"`         // Cancun switch block (nil = no fork, 0 = already on cancun)
+	CommonsBudgetBlock  *big.Int `json:"commonsBudgetBlock,omitempty"`  // Commons budget activation block (nil = no fork, 0 = already activated)
 
 	// TerminalTotalDifficulty is the amount of total difficulty reached by
 	// the network that triggers the consensus upgrade.
@@ -560,6 +561,11 @@ func (c *ChainConfig) IsArrowGlacier(num *big.Int) bool {
 // IsGrayGlacier returns whether num is either equal to the Gray Glacier (EIP-5133) fork block or greater.
 func (c *ChainConfig) IsGrayGlacier(num *big.Int) bool {
 	return isForked(c.GrayGlacierBlock, num)
+}
+
+// IsCommonsBudgetActivated returns whether num is either equal to the commons budget activation block or greater.
+func (c *ChainConfig) IsCommonsBudgetActivated(num *big.Int) bool {
+	return isForked(c.CommonsBudgetBlock, num)
 }
 
 // IsTerminalPoWBlock returns whether the given block is the last block of PoW stage.
