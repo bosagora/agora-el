@@ -301,6 +301,8 @@ type ChainConfig struct {
 	CancunTime   *uint64 `json:"cancunTime,omitempty"`   // Cancun switch time (nil = no fork, 0 = already on cancun)
 	PragueTime   *uint64 `json:"pragueTime,omitempty"`   // Prague switch time (nil = no fork, 0 = already on prague)
 
+	CommonsBudgetBlock  *big.Int `json:"commonsBudgetBlock,omitempty"`  // Commons budget activation block (nil = no fork, 0 = already activated)
+
 	// TerminalTotalDifficulty is the amount of total difficulty reached by
 	// the network that triggers the consensus upgrade.
 	TerminalTotalDifficulty *big.Int `json:"terminalTotalDifficulty,omitempty"`
@@ -498,6 +500,11 @@ func (c *ChainConfig) IsArrowGlacier(num *big.Int) bool {
 // IsGrayGlacier returns whether num is either equal to the Gray Glacier (EIP-5133) fork block or greater.
 func (c *ChainConfig) IsGrayGlacier(num *big.Int) bool {
 	return isBlockForked(c.GrayGlacierBlock, num)
+}
+
+// IsCommonsBudgetActivated returns whether num is either equal to the commons budget activation block or greater.
+func (c *ChainConfig) IsCommonsBudgetActivated(num *big.Int) bool {
+	return isBlockForked(c.CommonsBudgetBlock, num)
 }
 
 // IsTerminalPoWBlock returns whether the given block is the last block of PoW stage.
