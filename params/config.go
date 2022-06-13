@@ -252,9 +252,7 @@ var (
 		Ethash:                        new(EthashConfig),
 		Clique:                        nil,
 		BosagoraBlock:                 nil,
-		CommonsBudget:                 common.Address{},
-		CommonsBudgetReward:           *common.Big0,
-		LastCommonsBudgetRewardBlock:  *common.Big0,
+		Bosagora:                      &BosagoraConfig{common.Address{}, *common.Big0, *common.Big0},
 	}
 
 	// AllCliqueProtocolChanges contains every protocol change (EIPs) introduced
@@ -286,9 +284,7 @@ var (
 		Ethash:                        nil,
 		Clique:                        &CliqueConfig{Period: 0, Epoch: 30000},
 		BosagoraBlock:                 nil,
-		CommonsBudget:                 common.Address{},
-		CommonsBudgetReward:           *common.Big0,
-		LastCommonsBudgetRewardBlock:  *common.Big0,
+		Bosagora:                      &BosagoraConfig{common.Address{}, *common.Big0, *common.Big0},
 	}
 
 	// TestChainConfig contains every protocol change (EIPs) introduced
@@ -320,9 +316,7 @@ var (
 		Ethash:                        new(EthashConfig),
 		Clique:                        nil,
 		BosagoraBlock:                 nil,
-		CommonsBudget:                 common.Address{},
-		CommonsBudgetReward:           *common.Big0,
-		LastCommonsBudgetRewardBlock:  *common.Big0,
+		Bosagora:                      &BosagoraConfig{common.Address{}, *common.Big0, *common.Big0},
 	}
 
 	// NonActivatedConfig defines the chain configuration without activating
@@ -354,9 +348,7 @@ var (
 		Ethash:                        new(EthashConfig),
 		Clique:                        nil,
 		BosagoraBlock:                 nil,
-		CommonsBudget:                 common.Address{},
-		CommonsBudgetReward:           *common.Big0,
-		LastCommonsBudgetRewardBlock:  *common.Big0,
+		Bosagora:                      &BosagoraConfig{common.Address{}, *common.Big0, *common.Big0},
 	}
 	TestRules = TestChainConfig.Rules(new(big.Int), false, 0)
 )
@@ -469,10 +461,8 @@ type ChainConfig struct {
 	Ethash *EthashConfig `json:"ethash,omitempty"`
 	Clique *CliqueConfig `json:"clique,omitempty"`
 
-	// Commons budget
-	CommonsBudget                common.Address `json:"commonsBudget"`                // commons budget address (This will most likely be the Address of a Smart Contract)
-	CommonsBudgetReward          big.Int        `json:"commonsBudgetReward"`          // amount of coins rewarded to the commons budget per block
-	LastCommonsBudgetRewardBlock big.Int        `json:"lastCommonsBudgetRewardBlock"` // last block to reward the commons budget
+	// Bosagora specific consensus parameters
+	Bosagora *BosagoraConfig `json:"bosagora,omitempty"`
 }
 
 // EthashConfig is the consensus engine configs for proof-of-work based sealing.
@@ -492,6 +482,13 @@ type CliqueConfig struct {
 // String implements the stringer interface, returning the consensus engine details.
 func (c *CliqueConfig) String() string {
 	return "clique"
+}
+
+type BosagoraConfig struct {
+	// Commons budget
+	CommonsBudget                common.Address `json:"commonsBudget"`                // commons budget address (This will most likely be the Address of a Smart Contract)
+	CommonsBudgetReward          big.Int        `json:"commonsBudgetReward"`          // amount of coins rewarded to the commons budget per block
+	LastCommonsBudgetRewardBlock big.Int        `json:"lastCommonsBudgetRewardBlock"` // last block to reward the commons budget
 }
 
 // Description returns a human-readable description of ChainConfig.
