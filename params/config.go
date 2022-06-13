@@ -155,6 +155,7 @@ var (
 		TerminalTotalDifficultyPassed: true,
 		Ethash:                        new(EthashConfig),
 		Clique:                        nil,
+		BosagoraBlock:                 nil,
 		CommonsBudget:                 common.Address{},
 		CommonsBudgetReward:           *common.Big0,
 		LastCommonsBudgetRewardBlock:  *common.Big0,
@@ -187,6 +188,7 @@ var (
 		TerminalTotalDifficultyPassed: false,
 		Ethash:                        nil,
 		Clique:                        &CliqueConfig{Period: 0, Epoch: 30000},
+		BosagoraBlock:                 nil,
 		CommonsBudget:                 common.Address{},
 		CommonsBudgetReward:           *common.Big0,
 		LastCommonsBudgetRewardBlock:  *common.Big0,
@@ -219,6 +221,7 @@ var (
 		TerminalTotalDifficultyPassed: false,
 		Ethash:                        new(EthashConfig),
 		Clique:                        nil,
+		BosagoraBlock:                 nil,
 		CommonsBudget:                 common.Address{},
 		CommonsBudgetReward:           *common.Big0,
 		LastCommonsBudgetRewardBlock:  *common.Big0,
@@ -251,6 +254,7 @@ var (
 		TerminalTotalDifficultyPassed: false,
 		Ethash:                        new(EthashConfig),
 		Clique:                        nil,
+		BosagoraBlock:                 nil,
 		CommonsBudget:                 common.Address{},
 		CommonsBudgetReward:           *common.Big0,
 		LastCommonsBudgetRewardBlock:  *common.Big0,
@@ -301,7 +305,7 @@ type ChainConfig struct {
 	CancunTime   *uint64 `json:"cancunTime,omitempty"`   // Cancun switch time (nil = no fork, 0 = already on cancun)
 	PragueTime   *uint64 `json:"pragueTime,omitempty"`   // Prague switch time (nil = no fork, 0 = already on prague)
 
-	CommonsBudgetBlock  *big.Int `json:"commonsBudgetBlock,omitempty"`  // Commons budget activation block (nil = no fork, 0 = already activated)
+	BosagoraBlock *big.Int `json:"bosagoraBlock,omitempty"` // Commons budget activation block (nil = no fork, 0 = already activated)
 
 	// TerminalTotalDifficulty is the amount of total difficulty reached by
 	// the network that triggers the consensus upgrade.
@@ -502,9 +506,9 @@ func (c *ChainConfig) IsGrayGlacier(num *big.Int) bool {
 	return isBlockForked(c.GrayGlacierBlock, num)
 }
 
-// IsCommonsBudgetActivated returns whether num is either equal to the commons budget activation block or greater.
-func (c *ChainConfig) IsCommonsBudgetActivated(num *big.Int) bool {
-	return isBlockForked(c.CommonsBudgetBlock, num)
+// IsBosagora returns whether num is either equal to the Bosagora changes are activated.
+func (c *ChainConfig) IsBosagora(num *big.Int) bool {
+	return isBlockForked(c.BosagoraBlock, num)
 }
 
 // IsTerminalPoWBlock returns whether the given block is the last block of PoW stage.
