@@ -383,7 +383,8 @@ func (st *StateTransition) TransitionDb() (*ExecutionResult, error) {
 		st.refundGas(params.RefundQuotientEIP3529)
 	}
 	effectiveTip := msg.GasPrice
-	if rules.IsLondon {
+	// stop burning base fees if bosagora
+	if rules.IsLondon && !st.evm.ChainConfig().IsBosagora(st.evm.Context.BlockNumber) {
 		effectiveTip = cmath.BigMin(msg.GasTipCap, new(big.Int).Sub(msg.GasFeeCap, st.evm.Context.BaseFee))
 	}
 
