@@ -349,7 +349,7 @@ type ChainConfig struct {
 	LondonBlock         *big.Int `json:"londonBlock,omitempty"`         // London switch block (nil = no fork, 0 = already on london)
 	ArrowGlacierBlock   *big.Int `json:"arrowGlacierBlock,omitempty"`   // Eip-4345 (bomb delay) switch block (nil = no fork, 0 = already activated)
 	MergeForkBlock      *big.Int `json:"mergeForkBlock,omitempty"`      // EIP-3675 (TheMerge) switch block (nil = no fork, 0 = already in merge proceedings)
-	CommonsBudgetBlock  *big.Int `json:"commonsBudgetBlock,omitempty"`  // Commons budget activation block (nil = no fork, 0 = already activated)
+	BosagoraBlock       *big.Int `json:"bosagoraBlock,omitempty"`       // Commons budget activation block (nil = no fork, 0 = already activated)
 
 	// TerminalTotalDifficulty is the amount of total difficulty reached by
 	// the network that triggers the consensus upgrade.
@@ -360,9 +360,9 @@ type ChainConfig struct {
 	Clique *CliqueConfig `json:"clique,omitempty"`
 
 	// Commons budget
-	CommonsBudget  			 	 common.Address `json:"commonsBudget"`  // commons budget address (This will most likely be the Address of a Smart Contract)
-	CommonsBudgetReward 	 	 big.Int       `json:"commonsBudgetReward"` // amount of coins rewarded to the commons budget per block
-	LastCommonsBudgetRewardBlock big.Int       `json:"lastCommonsBudgetRewardBlock"` // last block to reward the commons budget
+	CommonsBudget                common.Address `json:"commonsBudget"`                // commons budget address (This will most likely be the Address of a Smart Contract)
+	CommonsBudgetReward          big.Int        `json:"commonsBudgetReward"`          // amount of coins rewarded to the commons budget per block
+	LastCommonsBudgetRewardBlock big.Int        `json:"lastCommonsBudgetRewardBlock"` // last block to reward the commons budget
 }
 
 // EthashConfig is the consensus engine configs for proof-of-work based sealing.
@@ -484,9 +484,9 @@ func (c *ChainConfig) IsArrowGlacier(num *big.Int) bool {
 	return isForked(c.ArrowGlacierBlock, num)
 }
 
-// IsCommonsBudgetActivated returns whether num is either equal to the commons budget activation block or greater.
-func (c *ChainConfig) IsCommonsBudgetActivated(num *big.Int) bool {
-	return isForked(c.CommonsBudgetBlock, num)
+// IsBosagora returns whether num is either equal to the Bosagora changes are activated.
+func (c *ChainConfig) IsBosagora(num *big.Int) bool {
+	return isForked(c.BosagoraBlock, num)
 }
 
 // IsTerminalPoWBlock returns whether the given block is the last block of PoW stage.
