@@ -388,7 +388,7 @@ type ChainConfig struct {
 	Clique *CliqueConfig `json:"clique,omitempty"`
 
 	// Bosagora specific consensus parameters
-	Bosagora *BosagoraConfig `json:"bosagora,omitempty`
+	Bosagora *BosagoraConfig `json:"bosagora,omitempty"`
 }
 
 // EthashConfig is the consensus engine configs for proof-of-work based sealing.
