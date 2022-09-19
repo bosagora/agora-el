@@ -32,4 +32,4 @@ jobs:
       with:
         # Either 'success' or 'skipped'
         push: ${{ steps.login.outcome == 'success' }}
-        tags: bosagora/client-go:${{ github.ref_name }}
+        tags: bosagora/agora-el-node:${{ github.ref_name }}
