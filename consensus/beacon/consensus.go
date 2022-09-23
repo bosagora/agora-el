@@ -328,18 +328,19 @@ func (beacon *Beacon) Prepare(chain consensus.ChainHeaderReader, header *types.H
 
 // Finalize implements consensus.Engine and processes withdrawals on top.
 func (beacon *Beacon) Finalize(chain consensus.ChainHeaderReader, header *types.Header, state *state.StateDB, txs []*types.Transaction, uncles []*types.Header, withdrawals []*types.Withdrawal) {
-	if chain.Config().IsBosagora(header.Number) {
-		if header.Number.Cmp(&chain.Config().Bosagora.LastCommonsBudgetRewardBlock) < 0 {
-			state.AddBalance(chain.Config().Bosagora.CommonsBudget, &chain.Config().Bosagora.CommonsBudgetReward)
-		}
-	}
-
 	// Finalize is different with Prepare, it can be used in both block generation
 	// and verification. So determine the consensus rules by header type.
 	if !beacon.IsPoSHeader(header) {
 		beacon.ethone.Finalize(chain, header, state, txs, uncles, nil)
 		return
 	}
+
+	if chain.Config().IsBosagora(header.Number) {
+		if header.Number.Cmp(&chain.Config().Bosagora.LastCommonsBudgetRewardBlock) < 0 {
+			state.AddBalance(chain.Config().Bosagora.CommonsBudget, &chain.Config().Bosagora.CommonsBudgetReward)
+		}
+	}
+
 	// Withdrawals processing.
 	for _, w := range withdrawals {
 		// Convert amount from gwei to wei.
