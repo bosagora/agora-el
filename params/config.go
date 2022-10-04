@@ -490,7 +490,13 @@ func (c *ChainConfig) Description() string {
 	// Create some basinc network config output
 	network := NetworkNames[c.ChainID.String()]
 	if network == "" {
-		network = "unknown"
+		if c.ChainID.String() == "2151" {
+			network = "AGORA MAINNET"
+		} else if c.ChainID.String() == "2019" {
+			network = "AGORA TESTNET"
+		} else {
+			network = "unknown"
+		}
 	}
 	banner += fmt.Sprintf("Chain ID:  %v (%s)\n", c.ChainID, network)
 	switch {
