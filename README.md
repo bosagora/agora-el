@@ -2,6 +2,8 @@
 
 Official Golang implementation of the Agora Execution Layer.
 
+This repository was forked from [ethereum/go-ethereum](https://github.com/ethereum/go-ethereum)
+
 ## Building the source
 
 Building `geth` requires both a Go (version 1.16 or later) and a C compiler. You can install
