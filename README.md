@@ -2,9 +2,6 @@
 
 Official Golang implementation of the Agora Execution Layer.
 
-Automated builds are available for stable releases and the unstable master branch. Binary
-archives are published at https://geth.ethereum.org/downloads/.
-
 ## Building the source
 
 Building `geth` requires both a Go (version 1.16 or later) and a C compiler. You can install
