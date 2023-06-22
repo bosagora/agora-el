@@ -130,11 +130,11 @@ func (c *ChainConfig) AddFork(name string, epoch uint64, version []byte) *ChainC
 func (c *ChainConfig) LoadForks(path string) error {
 	file, err := os.ReadFile(path)
 	if err != nil {
-		return fmt.Errorf("failed to read beacon chain config file: %v", err)
+		return fmt.Errorf("failed to read agora-cl chain config file: %v", err)
 	}
 	config := make(map[string]string)
 	if err := yaml.Unmarshal(file, &config); err != nil {
-		return fmt.Errorf("failed to parse beacon chain config file: %v", err)
+		return fmt.Errorf("failed to parse agora-cl chain config file: %v", err)
 	}
 	var (
 		versions = make(map[string][]byte)
@@ -148,7 +148,7 @@ func (c *ChainConfig) LoadForks(path string) error {
 			if v, err := hexutil.Decode(value); err == nil {
 				versions[name] = v
 			} else {
-				return fmt.Errorf("failed to decode hex fork id %q in beacon chain config file: %v", value, err)
+				return fmt.Errorf("failed to decode hex fork id %q in agora-cl chain config file: %v", value, err)
 			}
 		}
 		if strings.HasSuffix(key, "_FORK_EPOCH") {
@@ -156,7 +156,7 @@ func (c *ChainConfig) LoadForks(path string) error {
 			if v, err := strconv.ParseUint(value, 10, 64); err == nil {
 				epochs[name] = v
 			} else {
-				return fmt.Errorf("failed to parse epoch number %q in beacon chain config file: %v", value, err)
+				return fmt.Errorf("failed to parse epoch number %q in agora-cl chain config file: %v", value, err)
 			}
 		}
 	}
@@ -165,11 +165,11 @@ func (c *ChainConfig) LoadForks(path string) error {
 			delete(versions, name)
 			c.AddFork(name, epoch, version)
 		} else {
-			return fmt.Errorf("fork id missing for %q in beacon chain config file", name)
+			return fmt.Errorf("fork id missing for %q in agora-cl chain config file", name)
 		}
 	}
 	for name := range versions {
-		return fmt.Errorf("epoch number missing for fork %q in beacon chain config file", name)
+		return fmt.Errorf("epoch number missing for fork %q in agora-cl chain config file", name)
 	}
 	sort.Sort(c.Forks)
 	return nil

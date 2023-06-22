@@ -129,7 +129,7 @@ func (cs *chainSyncer) loop() {
 			// it has not yet switched us over, keep warning the user that their infra is
 			// potentially flaky.
 			if errors.Is(err, downloader.ErrMergeTransition) && time.Since(cs.warned) > 10*time.Second {
-				log.Warn("Local chain is post-merge, waiting for beacon client sync switch-over...")
+				log.Warn("Local chain is post-merge, waiting for agora-cl client sync switch-over...")
 				cs.warned = time.Now()
 			}
 		case <-cs.force.C:
