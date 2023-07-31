@@ -618,19 +618,19 @@ func (s *skeleton) processNewHead(head *types.Header, final *types.Header, force
 		}
 		// Not a noop / double head announce, abort with a reorg
 		if force {
-			log.Warn("Beacon chain reorged", "tail", lastchain.Tail, "head", lastchain.Head, "newHead", number)
+			log.Warn("Agora-cl chain reorged", "tail", lastchain.Tail, "head", lastchain.Head, "newHead", number)
 		}
 		return true
 	}
 	if lastchain.Head+1 < number {
 		if force {
-			log.Warn("Beacon chain gapped", "head", lastchain.Head, "newHead", number)
+			log.Warn("Agora-cl chain gapped", "head", lastchain.Head, "newHead", number)
 		}
 		return true
 	}
 	if parent := rawdb.ReadSkeletonHeader(s.db, number-1); parent.Hash() != head.ParentHash {
 		if force {
-			log.Warn("Beacon chain forked", "ancestor", parent.Number, "hash", parent.Hash(), "want", head.ParentHash)
+			log.Warn("Agora-cl chain forked", "ancestor", parent.Number, "hash", parent.Hash(), "want", head.ParentHash)
 		}
 		return true
 	}
